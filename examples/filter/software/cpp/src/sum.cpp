@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
   // Print the return value.
   std::cout << *reinterpret_cast<int32_t*>(&return_value_0) << std::endl;
 
-  // Print surations.
+  // Print durations.
   std::cout << "Create platform: \t" << t_platform_create << "us" << std::endl;
   std::cout << "Init platform: \t\t" << t_platform_init << "us" << std::endl;
   std::cout << "Create context: \t" << t_context << "us" << std::endl;

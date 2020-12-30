@@ -24,7 +24,7 @@ use ieee.numeric_std.all;
 
 library work;
 
--- This unit is a simple accumulator. The data can be read any time after
+-- This unit is a simple accumulator.
 
 entity StreamAccumulator is
   generic (

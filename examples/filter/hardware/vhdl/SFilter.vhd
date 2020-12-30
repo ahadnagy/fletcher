@@ -104,99 +104,17 @@ architecture Implementation of SFilter is
   signal filter_out_data        : std_logic_vector(63 downto 0);
   
   
---  signal map_out_valid          : std_logic;
---  signal map_out_ready          : std_logic;
---  signal map_out_data           : std_logic_vector(63 downto 0);
---  signal map_out_dvalid         : std_logic;
---  signal map_out_last           : std_logic;
-  
-  
---  signal drop_out_ready         : std_logic;
---  signal drop_out_valid         : std_logic;
-  
   -- Sum output stream.
   signal sum_out_valid          : std_logic;
   signal sum_out_ready          : std_logic;
   signal sum_out_data           : std_logic_vector(63 downto 0);
   
---  --output internal copies
---  signal ExampleBatch_string_ready_s            : std_logic;
---  signal ExampleBatch_string_chars_ready_s      : std_logic;
---  signal ExampleBatch_number_ready_s            : std_logic;
---  signal ExampleBatch_string_unl_ready_s        : std_logic;
---  signal ExampleBatch_number_unl_ready_s        : std_logic;
---  signal ExampleBatch_string_cmd_valid_s        : std_logic;
---  signal ExampleBatch_number_cmd_valid_s        : std_logic;
-  
---  signal idle_s                                 : std_logic;
---  signal busy_s                                 : std_logic;
---  signal done_s                                 : std_logic;
---  signal result_s                               : std_logic_vector(63 downto 0);
-
---    COMPONENT ila_0
-    
---    PORT (
---        clk : IN STD_LOGIC;
---        probe0 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe1 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe2 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe3 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe4 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe5 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe6 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe7 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe8 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
---        probe9 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe10 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe11 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe12 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe13 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
---        probe14 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe15 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe16 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe17 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe18 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe19 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe20 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe21 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe22 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe23 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe24 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe25 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe26 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe27 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
---        probe28 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe29 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe30 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe31 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe32 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe33 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe34 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe35 : IN STD_LOGIC_VECTOR(0 DOWNTO 0); 
---        probe36 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
---        probe37 : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
---        probe38 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
---        probe39 : IN STD_LOGIC_VECTOR(0 DOWNTO 0)
---    );
---    END COMPONENT;
                             
   
   
-begin
+begin   
 
---  ExampleBatch_string_ready           <= ExampleBatch_string_ready_s;      
---  ExampleBatch_string_chars_ready     <= ExampleBatch_string_chars_ready_s;
---  ExampleBatch_number_ready           <= ExampleBatch_number_ready_s;      
---  ExampleBatch_string_unl_ready       <= ExampleBatch_string_unl_ready_s;  
---  ExampleBatch_number_unl_ready       <= ExampleBatch_number_unl_ready_s; 
---  ExampleBatch_string_cmd_valid       <= ExampleBatch_string_cmd_valid_s;  
---  ExampleBatch_number_cmd_valid       <= ExampleBatch_number_cmd_valid_s;  
---  idle                                <= idle_s;                           
---  busy                                <= busy_s;                           
---  done                                <= done_s;                           
---  result                              <= result_s;      
-
-   --Ont-hot encoded char mask for matcher.
+   --Validity mask for matcher.
     with ExampleBatch_string_chars_count(4 downto 0) select char_valid_mask <=
      "00000000000000000001" when "00001",
      "00000000000000000011" when "00010", 
@@ -306,59 +224,6 @@ begin
         out_last(0)                 => filter_out_last
       );
       
-    --drop_empty: DropEmpty
-    --port map (
-    --  clk                       => kcd_clk,
-    --  reset                     => kcd_reset,
-
-    --  in_valid                  => filter_out_valid,
-    --  in_ready                  => filter_out_ready,
-    --  in_dvalid                 => filter_out_strb,
-
-
-    --  out_valid                 => drop_out_valid,
-    --  out_ready                 => drop_out_ready
-    --  );
-      
-    --filter_out_ready <= '1';
---    map_stage: MapStage
---      generic map (
---        INDEX_WIDTH => INDEX_WIDTH-1
---      )
---      port map(
---        kcd_clk              => kcd_clk,
---        kcd_reset            => kcd_reset or reset,
---        map_in_valid         => filter_out_valid,
---        map_in_ready         => filter_out_ready,
---        map_in_dvalid        => filter_out_strb,
---        map_in_last          => filter_out_last,
---        map_in               => ExampleBatch_number(63 downto 0),
-        
---        map_out_valid        => map_out_valid,
---        map_out_ready        => map_out_ready,
---        map_out_dvalid       => map_out_dvalid,
---        map_out_last         => map_out_last,
---        map_out              => map_out_data
---      );
-    
-    
---    reduce_stage: ReduceStage
---    generic map (
---        INDEX_WIDTH => INDEX_WIDTH-1
---      )
---    port map (
---      clk                       => kcd_clk,
---      reset                     => kcd_reset or reset,
---      in_valid                  => map_out_valid,
---      in_ready                  => map_out_ready,
---      in_dvalid                 => map_out_dvalid,
---      in_last                   => map_out_last,
---      in_data                   => map_out_data,
---      out_valid                 => sum_out_valid,
---      out_ready                 => sum_out_ready,
---      out_data                  => sum_out_data
---    );
-    
     
     reduce_stage: ReduceStage
     generic map (
@@ -377,50 +242,6 @@ begin
       out_data                  => sum_out_data
     );
     
---    dbg_ila : ila_0
---    PORT MAP (
---        clk => kcd_clk,
---        probe0(0) => ExampleBatch_string_valid, 
---        probe1(0) => ExampleBatch_string_ready_s, 
---        probe2(0) => ExampleBatch_string_dvalid, 
---        probe3(0) => ExampleBatch_string_last, 
---        probe4(0) => ExampleBatch_string_chars_valid, 
---        probe5(0) => ExampleBatch_string_chars_ready_s, 
---        probe6(0) => ExampleBatch_string_chars_dvalid, 
---        probe7(0) => ExampleBatch_string_chars_last,
---        probe8 => ExampleBatch_string_chars(7 downto 0),
---        probe9(0) => ExampleBatch_number_valid, 
---        probe10(0) => ExampleBatch_number_ready_s, 
---        probe11(0) => ExampleBatch_number_dvalid, 
---        probe12(0) => ExampleBatch_number_last, 
---        probe13 => ExampleBatch_number(7 downto 0), 
---        probe14(0) => ExampleBatch_string_unl_valid, 
---        probe15(0) => ExampleBatch_string_unl_ready_s, 
---        probe16(0) => ExampleBatch_number_unl_valid, 
---        probe17(0) => ExampleBatch_number_unl_ready_s, 
---        probe18(0) => ExampleBatch_string_cmd_valid_s, 
---        probe19(0) => ExampleBatch_string_cmd_ready, 
---        probe20(0) => ExampleBatch_number_cmd_valid_s, 
---        probe21(0) => ExampleBatch_number_cmd_ready, 
---        probe22(0) => start, 
---        probe23(0) => stop, 
---        probe24(0) => reset, 
---        probe25(0) => idle_s, 
---        probe26(0) => busy_s, 
---        probe27 => result_s(7 downto 0), 
---        probe28(0) => matcher_out_valid, 
---        probe29(0) => matcher_out_ready, 
---        probe30(0) => matcher_out_match, 
---        probe31(0) => filter_out_valid, 
---        probe32(0) => filter_out_ready, 
---        probe33(0) => filter_out_strb, 
---        probe34(0) => sum_out_valid, 
---        probe35(0) => sum_out_ready, 
---        probe36 => sum_out_data(7 downto 0), 
---        probe37 => ExampleBatch_firstidx(7 downto 0), 
---        probe38 => ExampleBatch_lastidx(7 downto 0),
---        probe39(0) => done_s
---    );
 
   with state select state_slv <= "00" when STATE_COMMAND,
                  "01" when STATE_CALCULATING,
